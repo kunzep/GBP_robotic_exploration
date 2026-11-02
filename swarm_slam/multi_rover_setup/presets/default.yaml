@@ -1,0 +1,62 @@
+# Default multi-rover scene. The rover list is defined only here (or in the
+# file passed with --config); every other value can be overridden on the CLI.
+#
+# Rover types: any `srb ls robot` ground robot, e.g. cadre, husky, leo_rover,
+# mars_rover, open_source_rover, perseverance, pragyan, raph_rover
+# (`name+payload` works too). Rovers are labelled rover_0, rover_1, ... in order.
+rovers:
+  - type: leo_rover
+  - type: perseverance
+  - type: cadre
+
+terrain:
+  kind: moon_surface      # moon_surface | mars_surface | apollo17 | apollo15 | jezero | jezero_v2 | flat
+  size_m: 48.0            # procedural extent
+  texture_px: 4096        # procedural albedo/normal resolution (8192 = sharper, slower first bake)
+  lod: high               # real DEM sites only
+  patch_size_m: null      # real DEM sites only (null = site default)
+  augment: none           # real DEM sites only: none | simforge (scatter rocks)
+
+layout:
+  kind: ring              # ring | line | grid | random | explicit
+  spacing_m: 4.0          # neighbour distance
+  heading: chain          # chain (face the rover ahead) | tangent | center | random
+  positions: null         # kind: explicit -> [[x, y, yaw_deg], ...]
+  spawn_clearance_m: 0.3
+
+motion:
+  kind: follow            # follow (rover_0 orbits, others pursue the one ahead) | orbit | wander | constant | idle
+  speed_mps: 0.25
+  cmd: [0.2, 0.0]         # kind: constant -> [v m/s, w rad/s]
+
+cameras:
+  resolution: [640, 480]
+  hfov_deg: 90.0          # rover camera horizontal FOV (null = asset lens)
+  depth_format: png16     # png16 (mm) | npy (float32 m) | both | none
+
+overseer:
+  mode: track             # track | fixed | orbit | off
+  resolution: [1920, 1080]
+  distance_m: null        # null = scale with the group
+  height_m: null
+  azimuth_deg: -120.0
+  focal_length: 18.0
+  orbit_deg_per_s: 6.0
+
+sim:
+  steps: 500              # agent steps (0.04 s each)
+  settle_steps: 60
+  warmup_steps: 8
+  seed: 0
+  headless: true
+  quality: quality        # quality | balanced | performance
+  skydome: high_res       # high_res | low_res | none
+  sun_rpy: [45.0, 30.0, 0.0]
+  kit_args: ""
+
+output:
+  root: swarm_slam/out/multi_rover_setup
+  name: null              # replaces the descriptive part of the run folder name
+  record_every: 5         # agent steps between saved frames (5 -> 5 Hz)
+  video: false
+  snapshot_only: false

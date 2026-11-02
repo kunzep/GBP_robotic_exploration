@@ -1,0 +1,23 @@
+# Mixed Mars rovers on the real HiRISE Jezero DEM (1 m, already baked offline).
+# Real DEM textures are coarse at rover scale; use mars_surface for sharp near-field detail.
+rovers:
+  - type: perseverance
+  - type: mars_rover
+  - type: husky
+
+terrain:
+  kind: jezero_v2
+  lod: medium
+  augment: none
+
+layout:
+  kind: ring
+  spacing_m: 5.0
+  heading: chain
+
+motion:
+  kind: follow
+  speed_mps: 0.2
+
+overseer:
+  mode: track
