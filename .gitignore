@@ -61,3 +61,5 @@ nv_shadercache/
 .*.publication.lock
 .*.stage
 .coverage
+swarm_slam/configs
+swarm_slam/out
