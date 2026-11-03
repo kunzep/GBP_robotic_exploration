@@ -1,0 +1,58 @@
+rovers:
+  - type: cadre
+  - type: cadre
+  - type: cadre
+  - type: cadre
+  - type: cadre
+
+terrain:
+  kind: moon_surface
+  size_m: 48.0
+  texture_px: 8192 #4096
+  lod: high
+  patch_size_m: null
+  augment: none
+
+layout:
+  kind: ring
+  spacing_m: 3.0
+  heading: chain
+  positions: null
+  spawn_clearance_m: 0.3
+
+motion:
+  kind: wander
+  speed_mps: 0.25
+  cmd: [0.2, 0.0]
+
+cameras:
+  resolution: [640, 480]
+  hfov_deg: 90.0
+  depth_format: png16
+
+overseer:
+  mode: fixed
+  resolution: [1920, 1080]
+  distance_m: null
+  height_m: 1.5 #null
+  azimuth_deg: -100.0 #-120.0
+  focal_length: 10.0 #18.0
+  orbit_deg_per_s: 0.0 #6.0
+
+sim:
+  steps: 250
+  settle_steps: 60
+  warmup_steps: 8
+  seed: 0
+  headless: true
+  quality: quality
+  skydome: high_res
+  sun_rpy: [45.0, 30.0, 0.0]
+  kit_args: ""
+
+output:
+  root: swarm_slam/out/multi_rover_setup
+  name: null              # replaces the descriptive part of the run folder name
+  record_every: 25         # agent steps between saved frames (5 -> 5 Hz)
+  video: false
+  snapshot_only: false

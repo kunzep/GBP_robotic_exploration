@@ -1,0 +1,58 @@
+# playground.yaml tuned for Swarm-SLAM replay (see swarm_slam/cslam_bridge/README.md).
+# Lines marked `# SLAM:` differ from playground.yaml; presets do not inherit, so the rest is copied.
+rovers:                   # SLAM: 3 instead of 5 rovers keeps the first run cheap
+  - type: cadre
+  - type: cadre
+  - type: cadre
+
+terrain:
+  kind: moon_surface
+  size_m: 48.0
+  texture_px: 8192
+  lod: high
+  patch_size_m: null
+  augment: none
+
+layout:
+  kind: ring              # rovers start 3 m apart facing each other -> overlapping views
+  spacing_m: 3.0
+  heading: chain
+  positions: null
+  spawn_clearance_m: 0.3
+
+motion:
+  kind: wander
+  speed_mps: 0.25
+  cmd: [0.2, 0.0]
+
+cameras:
+  resolution: [640, 480]
+  hfov_deg: 90.0
+  depth_format: png16     # cslam takes 16UC1 millimetres directly
+
+overseer:
+  mode: fixed
+  resolution: [960, 540]  # SLAM: saved every frame, so keep it small
+  distance_m: null
+  height_m: 1.5
+  azimuth_deg: -100.0
+  focal_length: 10.0
+  orbit_deg_per_s: 0.0
+
+sim:
+  steps: 1500             # SLAM: 60 s of driving
+  settle_steps: 60
+  warmup_steps: 8
+  seed: 0
+  headless: true
+  quality: quality
+  skydome: high_res
+  sun_rpy: [45.0, 30.0, 0.0]
+  kit_args: ""
+
+output:
+  root: swarm_slam/out/multi_rover_setup
+  name: null
+  record_every: 2         # SLAM: 12.5 Hz (~2 cm between frames) so visual odometry can track
+  video: false
+  snapshot_only: false

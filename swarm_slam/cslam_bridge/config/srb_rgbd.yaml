@@ -1,0 +1,54 @@
+# cslam parameters for simulated RGB-D rovers replayed from bags.
+# Based on cslam_experiments/config/realsense_rgbd.yaml; changed values are commented.
+# robot_id, max_nb_robots, evaluation.log_folder and frontend.nn_checkpoint come from
+# launch/srb_rgbd.launch.py.
+/**:
+  ros__parameters:
+    frontend:
+      sensor_type: "rgbd"
+      # Topic contract of cslam_bridge/messages.py (relative to /r<id>).
+      color_image_topic: "color/image"
+      depth_image_topic: "depth/image"
+      color_camera_info_topic: "color/camera_info"  # upstream's `color_camera_info` key is ignored by the code
+      odom_topic: "odom"
+      sensor_base_frame_id: ""                     # camera optical frame is the base: no TF needed
+      inter_robot_loop_closure_budget: 1
+      inter_robot_detection_period_sec: 1
+      max_queue_size: 100
+      similarity_threshold: 0.8
+      global_descriptors_topic: "global_descriptors"
+      image_crop_size: 376
+      intra_loop_min_inbetween_keyframes: 8
+      pnp_min_inliers: 30                          # was 100; regolith gives fewer features than indoor scenes
+      detection_publication_period_sec: 1.0
+      detection_publication_max_elems_per_msg: 10
+      enable_intra_robot_loop_closures: true
+      keyframe_generation_ratio_threshold: 0.5
+      use_vertex_cover_selection: true
+      map_manager_process_period_ms: 100
+      enable_sparsification: true
+      global_descriptor_technique: "cosplace"
+      cosplace:
+        backbone: "resnet18"
+        descriptor_dim: 64
+    neighbor_management:
+      enable_neighbor_monitoring: true
+      max_heartbeat_delay_sec: 5.0
+      init_delay_sec: 5.0
+      heartbeat_period_sec: 1.0
+    backend:
+      pose_graph_optimization_start_period_ms: 10000
+      pose_graph_optimization_loop_period_ms: 100
+      max_waiting_time_sec: 60
+      enable_broadcast_tf_frames: true
+    evaluation:
+      enable_logs: true                            # was false; g2o + stamps for tools/eval_slam.py
+      enable_pose_timestamps_recording: true       # keyframe -> stamp, to match ground truth (needs enable_logs)
+      enable_gps_recording: false
+      gps_topic: "gps/fix"
+      enable_sparsification_comparison: false
+    visualization:
+      enable: true
+      publishing_period_ms: 500
+      voxel_size: 0.2
+      max_range: 4.0
